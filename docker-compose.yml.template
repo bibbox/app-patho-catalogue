@@ -1,0 +1,134 @@
+version: '3'
+
+networks: 
+    bibbox-default-network:
+        external: true
+
+services:
+    §§INSTANCE-dspace:
+        container_name: §§INSTANCE-dspace
+        image: dspace/dspace:dspace-7_x-test
+        restart: unless-stopped
+        environment:
+            - REST_HOST=§§INSTANCE-rest.silicolabv4.bibbox.org
+            - UI_HOST=§§INSTANCE.silicolabv4.bibbox.org
+        links:
+            - §§INSTANCE-dspacedb:dspacedb
+            - §§INSTANCE-dspacesolr:dspacesolr
+
+        networks: 
+            - bibbox-default-network
+        proxy:
+            TYPE: HELPER
+            URLPREFIX:  §§INSTANCE-rest
+            TEMPLATE: default
+            DISPLAYNAME: 'DSpace-Rest'        
+        ports:
+            - 8080:8080
+            - 8009:8009
+        stdin_open: true
+        tty: true
+        volumes:
+            - ./data/assetstore:/dspace/assetstore
+            - ./images/ROOT:/usr/local/tomcat/webapps/ROOT
+            - ./images/configs/local.cfg.template:/dspace/config/local.cfg.template
+            - ./images/configs/sed.sh:/dspace/config/sed.sh
+        entrypoint:
+            - /bin/bash
+            - '-c'
+            - |
+                while (!</dev/tcp/dspacedb/5432) > /dev/null 2>&1; do sleep 1; done;
+                bash /dspace/config/sed.sh
+                /dspace/bin/dspace database migrate
+                /dspace/bin/dspace create-administrator -e test@test.edu -f admin -l user -p admin -c en
+                sed -i '/name-map collection-handle="default".*/a \\n <name-map collection-handle="123456789/3" submission-name="Publication"/> \
+                    <name-map collection-handle="123456789/4" submission-name="Publication"/> \
+                    <name-map collection-handle="123456789/281" submission-name="Publication"/> \
+                    <name-map collection-handle="123456789/5" submission-name="Publication"/> \
+                    <name-map collection-handle="123456789/8" submission-name="OrgUnit"/> \
+                    <name-map collection-handle="123456789/6" submission-name="Person"/> \
+                    <name-map collection-handle="123456789/279" submission-name="Person"/> \
+                    <name-map collection-handle="123456789/7" submission-name="Project"/> \
+                    <name-map collection-handle="123456789/280" submission-name="Project"/> \
+                    <name-map collection-handle="123456789/28" submission-name="Journal"/> \
+                    <name-map collection-handle="123456789/29" submission-name="JournalVolume"/> \
+                    <name-map collection-handle="123456789/30" submission-name="JournalIssue"/>' /dspace/config/item-submission.xml
+                catalina.sh run
+    
+    §§INSTANCE-dspace-angular:
+        container_name: §§INSTANCE-dspace-angular
+        environment:
+            - DSPACE_HOST=§§INSTANCE-dspace-angular
+            - DSPACE_NAMESPACE=/
+            - DSPACE_PORT=4000
+            - DSPACE_SSL="false"
+            - DSPACE_REST_HOST=§§INSTANCE-rest.silicolabv4.bibbox.org
+            - DSPACE_REST_PORT=80
+            - DSPACE_REST_NAMESPACE=/server
+            - DSPACE_REST_SSL="false"
+        build:
+            context: ./images/src/
+            dockerfile: Dockerfile
+        image: dspace/dspace-angular:latest
+        networks:
+            - bibbox-default-network
+        proxy:
+            TYPE: PRIMARY
+            URLPREFIX:  §§INSTANCE
+            TEMPLATE: default
+            DISPLAYNAME: 'DSpace'
+        links:
+            - §§INSTANCE-dspace:dspace
+        ports:
+            - 4000:4000
+            - 9876:9876
+        stdin_open: true
+        tty: true
+        volumes:
+            - ./images/environment.dev.ts:/app/src/environments/environment.dev.ts
+
+    §§INSTANCE-dspacedb:
+        container_name: §§INSTANCE-dspacedb
+        image: dspace/dspace-postgres-pgcrypto:loadsql
+        restart: unless-stopped
+        environment:
+            - PGDATA=/pgdata
+            - LOADSQL=https://github.com/DSpace-Labs/AIP-Files/releases/download/demo-entities-data/dspace7-entities-2021-04-14.sql
+        networks:
+            - bibbox-default-network
+        ports:
+            - 5432:5432
+        stdin_open: true
+        tty: true
+        volumes: 
+            - ./data/pgdata:/pgdata
+
+    §§INSTANCE-dspacesolr:
+        container_name: §§INSTANCE-dspacesolr
+        image: solr:8.8
+        restart: unless-stopped
+        networks:
+            - bibbox-default-network
+        ports:
+            - 8983:8983
+        stdin_open: true
+        tty: true
+        working_dir: /var/solr/data
+        volumes:
+            - ./images/configs/solr/authority:/opt/solr/server/solr/configsets/authority
+            - ./images/configs/solr/oai:/opt/solr/server/solr/configsets/oai
+            - ./images/configs/solr/search:/opt/solr/server/solr/configsets/search
+            - ./images/configs/solr/statistics:/opt/solr/server/solr/configsets/statistics
+            # Keep Solr data directory between reboots
+            - ./data/solr_data:/var/solr/data
+        entrypoint:
+            - /bin/bash
+            - '-c'
+            - |
+                init-var-solr
+                precreate-core authority /opt/solr/server/solr/configsets/authority
+                precreate-core oai /opt/solr/server/solr/configsets/oai
+                precreate-core search /opt/solr/server/solr/configsets/search
+                precreate-core statistics /opt/solr/server/solr/configsets/statistics
+
+                exec solr -f
