@@ -69,7 +69,7 @@ services:
         build:
             context: ./images/src/
             dockerfile: Dockerfile
-        image: dspace/dspace-angular:latest
+        image: dspace/dspace-angular-catalogue:latest
         networks:
             - bibbox-default-network
         proxy:
