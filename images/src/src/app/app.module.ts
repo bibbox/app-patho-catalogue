@@ -23,7 +23,9 @@ import { CheckAuthenticationTokenAction } from './core/auth/auth.actions';
 import { CoreModule } from './core/core.module';
 import { JournalEntitiesModule } from './entity-groups/journal-entities/journal-entities.module';
 import { ResearchEntitiesModule } from './entity-groups/research-entities/research-entities.module';
+
 import { PathologyEntitiesModule } from './entity-groups/pathology-entities/pathology-entities.module';
+
 import { ClientCookieService } from './core/services/client-cookie.service';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderNavbarWrapperComponent } from './header-nav-wrapper/header-navbar-wrapper.component';

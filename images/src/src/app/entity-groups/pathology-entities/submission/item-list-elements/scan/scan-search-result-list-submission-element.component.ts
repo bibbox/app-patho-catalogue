@@ -19,8 +19,10 @@ import { NameVariantModalComponent } from '../../name-variant-modal/name-variant
 import { MetadataValue } from '../../../../../core/shared/metadata.models';
 import { ItemDataService } from '../../../../../core/data/item-data.service';
 import { SelectableListService } from '../../../../../shared/object-list/selectable-list/selectable-list.service';
+import { DSONameService } from '../../../../../core/breadcrumbs/dso-name.service';
 
-@listableObjectComponent('ScanSearchResult', ViewMode.ListElement, Context.SubmissionModal)
+@listableObjectComponent('ScanSearchResult', ViewMode.ListElement, Context.EntitySearchModal)
+@listableObjectComponent('ScanSearchResult', ViewMode.ListElement, Context.EntitySearchModalWithNameVariants)
 @Component({
   selector: 'ds-scan-search-result-list-submission-element',
   styleUrls: ['./scan-search-result-list-submission-element.component.scss'],
@@ -42,8 +44,9 @@ export class ScanSearchResultListSubmissionElementComponent extends SearchResult
               private modalService: NgbModal,
               private itemDataService: ItemDataService,
               private bitstreamDataService: BitstreamDataService,
-              private selectableListService: SelectableListService) {
-    super(truncatableService);
+              private selectableListService: SelectableListService,
+              protected dsoNameService: DSONameService) {
+    super(truncatableService, dsoNameService);
   }
 
   ngOnInit() {
@@ -102,9 +105,9 @@ export class ScanSearchResultListSubmissionElementComponent extends SearchResult
   }
 
   // TODO refactor to return RemoteData, and thumbnail template to deal with loading
-  getThumbnail(): Observable<Bitstream> {
-    return this.bitstreamDataService.getThumbnailFor(this.dso).pipe(
-      getFirstSucceededRemoteDataPayload()
-    );
-  }
+  //getThumbnail(): Observable<Bitstream> {
+  //  return this.bitstreamDataService.getThumbnailFor(this.dso).pipe(
+  //    getFirstSucceededRemoteDataPayload()
+  //  );
+  //}
 }

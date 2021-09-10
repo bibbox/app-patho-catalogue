@@ -19,8 +19,11 @@ import { MetadataValue } from '../../../../../core/shared/metadata.models';
 import { ItemDataService } from '../../../../../core/data/item-data.service';
 import { SelectableListService } from '../../../../../shared/object-list/selectable-list/selectable-list.service';
 import { NameVariantModalComponent } from '../../name-variant-modal/name-variant-modal.component';
+import { DSONameService } from '../../../../../core/breadcrumbs/dso-name.service';
 
-@listableObjectComponent('SlideSearchResult', ViewMode.ListElement, Context.SubmissionModal)
+
+@listableObjectComponent('SlideSearchResult', ViewMode.ListElement, Context.EntitySearchModal)
+@listableObjectComponent('SlideSearchResult', ViewMode.ListElement, Context.EntitySearchModalWithNameVariants)
 @Component({
   selector: 'ds-scan-search-result-list-submission-element',
   styleUrls: ['./slide-search-result-list-submission-element.component.scss'],
@@ -42,8 +45,9 @@ export class SlideSearchResultListSubmissionElementComponent extends SearchResul
               private modalService: NgbModal,
               private itemDataService: ItemDataService,
               private bitstreamDataService: BitstreamDataService,
-              private selectableListService: SelectableListService) {
-    super(truncatableService);
+              private selectableListService: SelectableListService,
+              protected dsoNameService: DSONameService) {
+    super(truncatableService, dsoNameService);
   }
 
   ngOnInit() {
@@ -102,9 +106,9 @@ export class SlideSearchResultListSubmissionElementComponent extends SearchResul
   }
 
   // TODO refactor to return RemoteData, and thumbnail template to deal with loading
-  getThumbnail(): Observable<Bitstream> {
-    return this.bitstreamDataService.getThumbnailFor(this.dso).pipe(
-      getFirstSucceededRemoteDataPayload()
-    );
-  }
+  //getThumbnail(): Observable<Bitstream> {
+  //  return this.bitstreamDataService.getThumbnailFor(this.dso).pipe(
+  //    getFirstSucceededRemoteDataPayload()
+  //  );
+  //}
 }

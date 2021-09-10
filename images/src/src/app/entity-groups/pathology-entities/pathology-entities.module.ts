@@ -8,7 +8,6 @@ import { WsiComponent } from './item-pages/wsi/wsi.component';
 import { SlideListElementComponent } from './item-list-elements/slide/slide-list-element.component';
 import { ScanListElementComponent } from './item-list-elements/scan/scan-list-element.component';
 import { WsiListElementComponent } from './item-list-elements/wsi/wsi-list-element.component';
-import { TooltipModule } from 'ngx-bootstrap';
 import { ScanGridElementComponent } from './item-grid-elements/scan/scan-grid-element.component';
 import { SlideGridElementComponent } from './item-grid-elements/slide/slide-grid-element.component';
 import { WsiGridElementComponent } from './item-grid-elements/wsi/wsi-grid-element.component';
@@ -57,7 +56,6 @@ const ENTRY_COMPONENTS = [
   imports: [
     CommonModule,
     SharedModule,
-    TooltipModule.forRoot(),
     ItemPageModule
   ],
   declarations: [
