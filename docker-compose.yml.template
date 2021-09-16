@@ -42,6 +42,7 @@ services:
                 bash /dspace/config/sed.sh
                 /dspace/bin/dspace database migrate
                 /dspace/bin/dspace create-administrator -e test@test.edu -f admin -l user -p admin -c en
+                /dspace/bin/dspace dsrun org.dspace.app.util.InitializeEntities -f /dspace/config/relationship-types.xml
                 sed -i '/name-map collection-handle="default".*/a \\n <name-map collection-handle="123456789/3" submission-name="Publication"/> \
                     <name-map collection-handle="123456789/4" submission-name="Publication"/> \
                     <name-map collection-handle="123456789/281" submission-name="Publication"/> \
@@ -54,7 +55,6 @@ services:
                     <name-map collection-handle="123456789/28" submission-name="Journal"/> \
                     <name-map collection-handle="123456789/29" submission-name="JournalVolume"/> \
                     <name-map collection-handle="123456789/30" submission-name="JournalIssue"/>' /dspace/config/item-submission.xml
-                /dspace/bin/dspace dsrun org.dspace.app.util.InitializeEntities -f /dspace/config/relationship-types.xml
                 catalina.sh run
     
     §§INSTANCE-dspace-angular:
