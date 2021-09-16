@@ -33,7 +33,7 @@ services:
             - ./images/ROOT:/usr/local/tomcat/webapps/ROOT
             - ./images/configs/local.cfg.template:/dspace/config/local.cfg.template
             - ./images/configs/sed.sh:/dspace/config/sed.sh
-            - ./images/rel.xml:/dspace/config/relationship-types.xml
+            - ./images/rel.xml:/dspace/config/entities/relationship-types.xml
         entrypoint:
             - /bin/bash
             - '-c'
