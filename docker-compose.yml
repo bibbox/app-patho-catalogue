@@ -27,6 +27,7 @@ services:
             - ./images/ROOT:/usr/local/tomcat/webapps/ROOT
             - ./images/configs/local.cfg.template.local:/dspace/config/local.cfg.template
             - ./images/configs/sed.sh:/dspace/config/sed.sh
+            - ./images/configs/startup.sh:/dspace/config/startup.sh
             - ./images/rel.xml:/dspace/config/relationship-types.xml
         entrypoint:
             - /bin/bash
@@ -49,7 +50,7 @@ services:
                     <name-map collection-handle="123456789/28" submission-name="Journal"/> \
                     <name-map collection-handle="123456789/29" submission-name="JournalVolume"/> \
                     <name-map collection-handle="123456789/30" submission-name="JournalIssue"/>' /dspace/config/item-submission.xml
-                catalina.sh run
+                bash /dspace/config/startup.sh
     
     dspace-angular:
         container_name: dspace-angular
