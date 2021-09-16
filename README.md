@@ -8,11 +8,12 @@ $sudo chmod -R 777 data/
 
 after this just run:
 
-docker-compose up --build
-
+docker-compose up -d --build
 The app will spin up and you can Open your browser and reach the frontend at: 
 
 http://localhost:4000
+
+## IMPORTANT after this you have to do docker-compose restart
 
 Login data is:
 
