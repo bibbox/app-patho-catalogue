@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE relationships SYSTEM "relationship-types.dtd">
+
+<relationships>
+
+<type>
+      <leftType>Slide</leftType>
+      <rightType>Scan</rightType>
+      <leftwardType>isScanOfSlide</leftwardType>
+      <rightwardType>isSlideOfScan</rightwardType>
+      <leftCardinality>
+          <min>0</min>
+      </leftCardinality>
+      <rightCardinality>
+          <min>0</min>
+      </rightCardinality>
+      <copyToRight>true</copyToRight>
+</type>
+<type>
+      <leftType>Scan</leftType>
+      <rightType>Wsi</rightType>
+      <leftwardType>isWsiOfScan</leftwardType>
+      <rightwardType>isScanOfWsi</rightwardType>
+      <leftCardinality>	
+          <min>0</min>
+      </leftCardinality>
+      <rightCardinality>
+          <min>0</min>
+      </rightCardinality>
+      <copyToRight>true</copyToRight>
+</type>
+<type>
+      <leftType>WsiTransform</leftType>
+      <rightType>Wsi</rightType>
+      <leftwardType>isWsiOfTransform</leftwardType>
+      <rightwardType>isTransformOfWsi</rightwardType>
+      <leftCardinality>
+          <min>0</min>
+      </leftCardinality>
+      <rightCardinality>
+          <min>0</min>
+      </rightCardinality>
+      <copyToRight>true</copyToRight>
+</type>
+<type>
+      <leftType>Slide</leftType>
+      <rightType>Wsi</rightType>
+      <leftwardType>isWsiOfSlide</leftwardType>
+      <rightwardType>isSlideOfWsi</rightwardType>
+      <leftCardinality>
+          <min>0</min>
+      </leftCardinality>
+      <rightCardinality>
+          <min>0</min>
+      </rightCardinality>
+      <copyToRight>true</copyToRight>
+</type>
+
+</relationships>
