@@ -56,7 +56,7 @@ services:
                     <name-map collection-handle="123456789/28" submission-name="Journal"/> \
                     <name-map collection-handle="123456789/29" submission-name="JournalVolume"/> \
                     <name-map collection-handle="123456789/30" submission-name="JournalIssue"/>' /dspace/config/item-submission.xml
-                bash /dspace/config/startup.sh
+                catalina.sh run
     
     §§INSTANCE-dspace-angular:
         container_name: §§INSTANCE-dspace-angular
