@@ -13,7 +13,7 @@ The app will spin up and you can Open your browser and reach the frontend at:
 
 http://localhost:4000
 
-## IMPORTANT after this you have to do docker-compose restart
+### IMPORTANT after this you have to do docker-compose restart
 
 Login data is:
 
@@ -41,7 +41,7 @@ Custom angular files used ! Currently only available within this repository:
 
 See ./images/src
 
-# DSpace BIBBOX application
+# DSpace Pathology catalogue BIBBOX application
 
 This container can be installed as [BIBBOX APP](http://silicolabv4.bibbox.org/applications "BIBBOX App Store") or standalone
 
@@ -62,17 +62,22 @@ To install the app locally execute the commands:
 
 `docker-compose up -d --build`
 
-## IMPORTANT after this you have to do docker-compose restart
+### IMPORTANT after this you have to do docker-compose restart
 
 After the Installation open "http://localhost:4000" in your browser
 
-The dafault port of the Dspace Angular container is 4000
+The default port of the Dspace Angular container is 4000
 
 If necessary change the ports in the environment file .env and the volume mounts in `docker-compose.yml`.
 
 ## Install within BIBBOX
 
-You can use the [BIBBOX APP Store](http://bibbox.readthedocs.io/en/latest/admin-documentation/ "BIBBOX App Store") to install a lot of software tools. 
+* To test the app on the Bibbox go to:
+  
+  http://silicolabv4.bibbox.org/applications
+
+  and click on DSpace-Catalogue-Test and choose install choose a Name and Display name. After the istallation has finished goto
+  the Instances Tab and klick on the on off icon for the Dspace App with your chosen Display Name.
 
 ## Docker Images Used
   * [dspace/dspace:dspace-7_x-test](https://hub.docker.com/r/dspace/dspace) (Rest API; this container is not listed in this repository but is pullable)
