@@ -1,5 +1,7 @@
 # DSpace Pathology catalogue BIBBOX application
 
+## IMPORTANT: This repository is deprecated and should not be used.
+
 This container can be installed as [BIBBOX APP](http://silicolabv4.bibbox.org/applications "BIBBOX App Store") or standalone
 
 * initial E-Mail/password: **test@test.edu / admin**
